@@ -4,3 +4,4 @@
 /robots.txt RobotsR GET
 
 / HomeR GET 
+/produto ProdutoR GET POST
