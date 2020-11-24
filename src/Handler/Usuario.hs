@@ -7,6 +7,7 @@
 module Handler.Usuario where
 
 import Import
+import Tool
 import Text.Lucius
 
 formUsuario :: Form (Usuario, Text)
@@ -23,11 +24,8 @@ getUsuarioR = do
     (widget,_) <- generateFormPost formUsuario
     msg <- getMessage
     defaultLayout $ do 
-        rt <- return UsuarioR
-        titulo <- return "CADASTRO DE USUARIO"
-        btn <- return "Cadastrar"
         toWidgetHead $(luciusFile "templates/form.lucius") 
-        $(whamletFile "templates/form.hamlet")
+        geraForm UsuarioR "CADASTRO DE USUARIO" "Cadastrar" msg widget
 
 postUsuarioR :: Handler Html
 postUsuarioR = do
