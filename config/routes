@@ -13,3 +13,5 @@
 /usuario                        UsuarioR        GET POST
 /login                          EntrarR         GET POST
 /logout                         SairR           POST
+
+/admin                          AdminR          GET
