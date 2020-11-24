@@ -50,3 +50,31 @@ getDescR pid = do
         <h2>
             Quantidade: #{produtoQuantidade produto}
                   |]
+
+getListProdR :: Handler Html
+getListProdR = do 
+    -- produtos :: [Entity Produto]
+    produtos <- runDB $ selectList [] [Desc ProdutoQuantidade]
+    defaultLayout [whamlet|
+            <table>
+                <thead>
+                    <tr>
+                        <th> 
+                            Nome
+                        
+                        <th>
+                            Qtd
+                        
+                        <th>
+                        
+                        <th>
+                <tbody>
+                    $forall Entity pid prod <- produtos
+                        <tr>
+                            <td>
+                                <a href=@{DescR pid}>
+                                    #{produtoNome prod}
+                            
+                            <td>
+                                #{produtoQuantidade prod}
+                    |]
