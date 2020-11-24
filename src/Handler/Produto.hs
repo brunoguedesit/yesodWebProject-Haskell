@@ -65,7 +65,7 @@ postUpdProdR pid = do
     case resp of 
          FormSuccess novo -> do
             runDB $ replace pid novo
-            redirect (DescR pid) 
+            redirect (MenuR) 
          _ -> redirect HomeR
 
 postDelProdR :: ProdutoId -> Handler Html
