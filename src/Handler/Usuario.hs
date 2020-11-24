@@ -19,9 +19,13 @@ formUsuario = renderBootstrap $ (,)
 
 getUsuarioR :: Handler Html
 getUsuarioR = do
+    rt <- return UsuarioR
     (widget,_) <- generateFormPost formUsuario
     msg <- getMessage
     defaultLayout $ do 
+        rt <- return UsuarioR
+        titulo <- return "CADASTRO DE USUARIO"
+        btn <- return "Cadastrar"
         toWidgetHead $(luciusFile "templates/form.lucius") 
         $(whamletFile "templates/form.hamlet")
 
@@ -40,7 +44,7 @@ postUsuarioR = do
             else do
                 setMessage [shamlet|
                     <div>
-                         SENHA E VERIFICAO NAO COINCIDEM
+                         SENHA E VERIFICACAO NAO COINCIDEM
                 |]
                 redirect UsuarioR
         _ -> redirect HomeR
