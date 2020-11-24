@@ -1,0 +1,7 @@
+
+         <h1>
+                Cadastre um produto para doação
+
+            <form action=@{ProdutoR} method=post>
+                ^{widget}
+                <input type="submit" value="Cadastrar">

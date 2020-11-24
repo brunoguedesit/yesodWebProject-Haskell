@@ -1,0 +1,27 @@
+       <table>
+                <thead>
+                    <tr>
+                        <th> 
+                            Nome
+                        
+                        <th>
+                            Qtd
+                        
+                        <th>
+                        
+                        <th>
+                <tbody>
+                    $forall Entity pid prod <- produtos
+                        <tr>
+                            <td>
+                                <a href=@{DescR pid}>
+                                    #{produtoNome prod}
+                            
+                            <td>
+                                #{produtoQuantidade prod}
+                            <th>
+                                <a href=@{UpdProdR pid}>
+                                    Editar
+                            <th>
+                                <form action=@{DelProdR pid} method=post>
+                                    <input type="submit" value="X">

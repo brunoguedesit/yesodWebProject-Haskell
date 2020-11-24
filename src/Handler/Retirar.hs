@@ -8,7 +8,9 @@ module Handler.Retirar where
 
 import Import
 import Tool
+import Text.Lucius
 import Database.Persist.Sql
+
 
 getListRetiradosR :: Handler Html
 getListRetiradosR = do
@@ -26,15 +28,8 @@ getListRetiradosR = do
                         \ WHERE usuario.id = ?"
                      produtos <- runDB $ rawSql sql [toPersistValue uid] :: Handler [(Entity Usuario,Entity Retirar,Entity Produto)]
                      defaultLayout $ do 
-                        [whamlet|
-                            <h1>
-                                 Lista de produtos retirados por #{usuarioNome usuario}
-                            
-                            <ul>
-                                $forall (Entity _ _, Entity _ retirar, Entity _ produto) <- produtos
-                                    <li>
-                                        #{produtoNome produto}: #{retirarQtunit retirar} 
-                        |]
+                         toWidgetHead $(luciusFile "templates/retirados.lucius")
+                         $(whamletFile "templates/retirados.hamlet")
 
 
 postRetirarR :: ProdutoId -> Handler Html

@@ -8,6 +8,7 @@ module Handler.Produto where
 
 import Import
 import Tool
+import Text.Lucius
 
 formProduto :: Maybe Produto -> Form Produto
 formProduto prod = renderDivs $ Produto  
@@ -23,14 +24,8 @@ auxProdutoR :: Route App -> Maybe Produto -> Handler Html
 auxProdutoR rt produto = do
     (widget,_) <- generateFormPost (formProduto Nothing)
     defaultLayout $ do
-        [whamlet|
-            <h1>
-                Cadastre um produto para doação
-
-            <form action=@{ProdutoR} method=post>
-                ^{widget}
-                <input type="submit" value="Cadastrar">
-        |]
+        toWidgetHead $(luciusFile "templates/registrarProduto.lucius")
+        $(whamletFile "templates/registrarProduto.hamlet")
 
 getProdutoR :: Handler Html
 getProdutoR = auxProdutoR ProdutoR Nothing
@@ -41,57 +36,23 @@ postProdutoR = do
     case resp of
         FormSuccess produto -> do
             pid <- runDB $ insert produto
-            redirect (HomeR)
+            redirect (MenuR)
         _ -> redirect HomeR
 
 getDescR :: ProdutoId -> Handler Html
 getDescR pid = do
     produto <- runDB $ get404 pid
     (widget,_) <- generateFormPost formQt
-    defaultLayout [whamlet|
-        <h1>
-            Nome: #{produtoNome produto}
-        <h2>
-            Quantidade: #{produtoQuantidade produto}
-        
-        <form action=@{RetirarR pid} method=post>
-            ^{widget}
-            <input type="submit" value="Retirar">
-    |]
+    defaultLayout $ do
+        toWidgetHead $(luciusFile "templates/desc.lucius")
+        $(whamletFile "templates/desc.hamlet")
 
 getListProdR :: Handler Html
 getListProdR = do 
-    -- produtos :: [Entity Produto]
     produtos <- runDB $ selectList [] [Desc ProdutoQuantidade]
-    defaultLayout [whamlet|
-            <table>
-                <thead>
-                    <tr>
-                        <th> 
-                            Nome
-                        
-                        <th>
-                            Qtd
-                        
-                        <th>
-                        
-                        <th>
-                <tbody>
-                    $forall Entity pid prod <- produtos
-                        <tr>
-                            <td>
-                                <a href=@{DescR pid}>
-                                    #{produtoNome prod}
-                            
-                            <td>
-                                #{produtoQuantidade prod}
-                            <th>
-                                <a href=@{UpdProdR pid}>
-                                    Editar
-                            <th>
-                                <form action=@{DelProdR pid} method=post>
-                                    <input type="submit" value="X">
-                    |]
+    defaultLayout $ do 
+        toWidgetHead $(luciusFile "templates/listar.lucius")
+        $(whamletFile "templates/listar.hamlet")
 
 getUpdProdR :: ProdutoId -> Handler Html
 getUpdProdR pid = do 

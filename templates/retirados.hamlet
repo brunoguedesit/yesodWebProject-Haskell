@@ -1,0 +1,7 @@
+  <h1>
+                                 Lista de produtos retirados por #{usuarioNome usuario}
+                            
+                            <ul>
+                                $forall (Entity _ _, Entity _ retirar, Entity _ produto) <- produtos
+                                    <li>
+                                        #{produtoNome produto}: #{retirarQtunit retirar} 

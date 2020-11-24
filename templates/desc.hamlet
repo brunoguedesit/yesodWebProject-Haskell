@@ -1,0 +1,8 @@
+<h1>
+            Nome: #{produtoNome produto}
+        <h2>
+            Quantidade: #{produtoQuantidade produto}
+        
+        <form action=@{RetirarR pid} method=post>
+            ^{widget}
+            <input type="submit" value="Retirar">
