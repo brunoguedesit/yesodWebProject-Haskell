@@ -2,3 +2,10 @@ Produto
     nome Text
     quantidade Int
     deriving Show
+
+Usuario
+    nome Text
+    email Text
+    senha Text
+    UniqueEmail email
+    deriving Show
