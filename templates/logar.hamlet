@@ -1,0 +1,15 @@
+$maybe message <- msg 
+    <div id="message-box">
+        ^{message}
+
+<div class="container">
+    <div id="previous-btn">
+        <a class="back-home" href=@{HomeR}>
+
+    <form class="signin-box" action=@{EntrarR} method=post>
+        <h1>
+            Entrar na conta
+        ^{widget}
+        <input class="submit-btn" type="submit" value="Entrar na conta">
+        <a href=@{UsuarioR}>
+            Cadastre-se

@@ -20,7 +20,8 @@ getEntrarR = do
     (widget,_) <- generateFormPost formLogin
     msg <- getMessage
     defaultLayout $ do 
-          geraForm EntrarR "ENTRAR" "Login" msg widget
+          toWidgetHead $(luciusFile "templates/logar.lucius")
+          $(whamletFile "templates/logar.hamlet")
 
 postEntrarR :: Handler Html
 postEntrarR = do 
@@ -42,7 +43,7 @@ postEntrarR = do
                 Just (Entity _ usu) -> do 
                     if (usuarioSenha usu == senha) then do
                         setSession "_EMAIL" (usuarioEmail usu)
-                        redirect HomeR
+                        redirect MenuR
                     else do 
                         setMessage [shamlet|
                             <div>

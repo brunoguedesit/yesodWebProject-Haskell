@@ -20,12 +20,11 @@ formUsuario = renderBootstrap $ (,)
 
 getUsuarioR :: Handler Html
 getUsuarioR = do
-    rt <- return UsuarioR
     (widget,_) <- generateFormPost formUsuario
     msg <- getMessage
     defaultLayout $ do 
-        toWidgetHead $(luciusFile "templates/form.lucius") 
-        geraForm UsuarioR "CADASTRO DE USUARIO" "Cadastrar" msg widget
+        toWidgetHead $(luciusFile "templates/registrar.lucius") 
+        $(whamletFile "templates/registrar.hamlet")
 
 postUsuarioR :: Handler Html
 postUsuarioR = do
@@ -36,13 +35,13 @@ postUsuarioR = do
                 runDB $ insert400 usuario
                 setMessage [shamlet|
                     <div>
-                         USUARIO INCLUIDO
+                         Usuario cadastrado com sucesso!!!
                 |]
                 redirect UsuarioR
             else do
                 setMessage [shamlet|
                     <div>
-                         SENHA E VERIFICACAO NAO COINCIDEM
+                         Senha e veficação não coincidem!!!
                 |]
                 redirect UsuarioR
         _ -> redirect HomeR
