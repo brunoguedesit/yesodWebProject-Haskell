@@ -83,6 +83,9 @@ getListProdR = do
                             <th>
                                 <a href=@{UpdProdR pid}>
                                     Editar
+                            <th>
+                                <form action=@{DelProdR pid} method=post>
+                                    <input type="submit" value="X">
                     |]
 
 getUpdProdR :: ProdutoId -> Handler Html
@@ -98,3 +101,9 @@ postUpdProdR pid = do
             runDB $ replace pid novo
             redirect (DescR pid) 
          _ -> redirect HomeR
+
+postDelProdR :: ProdutoId -> Handler Html
+postDelProdR pid = do
+    _ <- runDB $ get404 pid
+    runDB $ delete pid 
+    redirect ListProdR
