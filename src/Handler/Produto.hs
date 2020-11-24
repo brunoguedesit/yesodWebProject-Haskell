@@ -41,7 +41,7 @@ postProdutoR = do
     case resp of
         FormSuccess produto -> do
             pid <- runDB $ insert produto
-            redirect (DescR pid)
+            redirect (HomeR)
         _ -> redirect HomeR
 
 getDescR :: ProdutoId -> Handler Html
