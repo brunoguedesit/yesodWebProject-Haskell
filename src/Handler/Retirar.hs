@@ -7,20 +7,25 @@
 module Handler.Retirar where
 
 import Import
+import Tool
+
+getListRetiradosR :: Handler Html
+getListRetiradosR = undefined
 
 postRetirarR :: ProdutoId -> Handler Html
-postRetirar pid = 
+postRetirarR pid = do
     ((resp,_),_)  <- runFormPost formQt
     case resp of 
-        _ -> redirect HomeR
         FormSuccess qt -> do
             sess <- lookupSession "_EMAIL"
             case sess of
                 Nothing -> redirect HomeR
                 Just email -> do
-                    email <- runDN $ getBy (UniqueEmail email)
+                    usuario <- runDB $ getBy (UniqueEmail email)
+
                     case usuario of 
                         Nothing -> redirect HomeR
                         Just (Entity uid _) -> do
                             runDB $ insert (Retirar pid uid qt)
-                            redirect HomeR
+                            redirect ListRetiradosR
+        _ -> redirect HomeR

@@ -7,7 +7,7 @@
 module Handler.Produto where
 
 import Import
---import Database.Persist.Postgresql
+import Tool
 
 formProduto :: Maybe Produto -> Form Produto
 formProduto prod = renderDivs $ Produto  
@@ -43,11 +43,6 @@ postProdutoR = do
             pid <- runDB $ insert produto
             redirect (DescR pid)
         _ -> redirect HomeR
-
-formQt :: Form Int
-formQt = renderDivs 
-    <$> areq intField "Quantidade: " Nothing
-
 
 getDescR :: ProdutoId -> Handler Html
 getDescR pid = do

@@ -4,8 +4,8 @@ Produto
     deriving Show
 
 Retirar
-    produtoid produtoid
-    usuarioid usuarioid
+    produtoid ProdutoId
+    usuarioid UsuarioId
     qtunit    Int
 
 Usuario

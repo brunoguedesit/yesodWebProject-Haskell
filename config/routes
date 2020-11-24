@@ -16,4 +16,5 @@
 
 /admin                          AdminR          GET
 
-/retirar/#ProdutoId             RetirarR        POST
+/retirar/#ProdutoId/obter       RetirarR        POST
+/retirar/lista                  ListRetiradosR  GET
