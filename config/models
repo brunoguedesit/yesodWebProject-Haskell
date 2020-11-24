@@ -3,6 +3,11 @@ Produto
     quantidade Int
     deriving Show
 
+Retirar
+    produtoid produtoid
+    usuarioid usuarioid
+    qtunit    Int
+
 Usuario
     nome Text
     email Text

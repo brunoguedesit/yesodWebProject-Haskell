@@ -44,15 +44,25 @@ postProdutoR = do
             redirect (DescR pid)
         _ -> redirect HomeR
 
+formQt :: Form Int
+formQt = renderDivs 
+    <$> areq intField "Quantidade: " Nothing
+
+
 getDescR :: ProdutoId -> Handler Html
 getDescR pid = do
     produto <- runDB $ get404 pid
+    (widget,_) <- generateFormPost formQt
     defaultLayout [whamlet|
         <h1>
             Nome: #{produtoNome produto}
         <h2>
             Quantidade: #{produtoQuantidade produto}
-                  |]
+        
+        <form action=@{RetirarR pid} method=post>
+            ^{widget}
+            <input type="submit" value="Retirar">
+    |]
 
 getListProdR :: Handler Html
 getListProdR = do 

@@ -15,3 +15,5 @@
 /logout                         SairR           POST
 
 /admin                          AdminR          GET
+
+/retirar/#ProdutoId             RetirarR        POST
