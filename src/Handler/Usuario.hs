@@ -7,6 +7,7 @@
 module Handler.Usuario where
 
 import Import
+import Text.Lucius
 
 formUsuario :: Form (Usuario, Text)
 formUsuario = renderBootstrap $ (,)
@@ -16,3 +17,30 @@ formUsuario = renderBootstrap $ (,)
         <*> areq passwordField "Senha: " Nothing)
     <*> areq passwordField "Digite Novamente: " Nothing
 
+getUsuarioR :: Handler Html
+getUsuarioR = do
+    (widget,_) <- generateFormPost formUsuario
+    msg <- getMessage
+    defaultLayout $ do 
+        toWidgetHead $(luciusFile "templates/form.lucius") 
+        $(whamletFile "templates/form.hamlet")
+
+postUsuarioR :: Handler Html
+postUsuarioR = do
+    ((result,_),_) <- runFormPost formUsuario
+    case result of 
+        FormSuccess (usuario,veri) -> do
+            if (usuarioSenha usuario == veri) then do
+                runDB $ insert400 usuario
+                setMessage [shamlet|
+                    <div>
+                         USUARIO INCLUIDO
+                |]
+                redirect UsuarioR
+            else do
+                setMessage [shamlet|
+                    <div>
+                         SENHA E VERIFICAO NAO COINCIDEM
+                |]
+                redirect UsuarioR
+        _ -> redirect HomeR
